@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,7 +25,25 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin{
+
+  late Animation animation;
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(vsync: this, duration: const Duration(seconds: 4));
+    animation = Tween(begin: 0.0, end: 200.0).animate(animationController);
+
+    animationController.addListener(() {
+      setState(() {
+
+      });
+    });
+    animationController.forward();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,12 +58,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Flutter Tween Animation',
+            Container(
+              width: animation.value,
+              height: animation.value,
+              color: Colors.blue,
             ),
           ],
         ),
