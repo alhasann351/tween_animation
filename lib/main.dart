@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -25,23 +23,31 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin{
-
-  late Animation animation;
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
+  late Animation animation, colorAnimation;
   late AnimationController animationController;
 
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(vsync: this, duration: const Duration(seconds: 4));
+    animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 4));
     animation = Tween(begin: 0.0, end: 200.0).animate(animationController);
-
+    colorAnimation = ColorTween(begin: Colors.blue, end: Colors.pink)
+        .animate(animationController);
     animationController.addListener(() {
       setState(() {
 
       });
     });
     animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    animationController.dispose();
   }
 
   @override
@@ -65,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             Container(
               width: animation.value,
               height: animation.value,
-              color: Colors.blue,
+              color: colorAnimation.value,
             ),
           ],
         ),
